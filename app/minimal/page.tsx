@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { useTheme } from "../providers/ThemeProvider";
 import headshot from "../../public/Xinghao_Headshot_2.jpg";
 import Header from "../components/Header";
 
