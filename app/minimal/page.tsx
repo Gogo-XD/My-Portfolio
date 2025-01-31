@@ -8,7 +8,7 @@ export default function Minimal() {
   const [activeSection, setActiveSection] = useState("experience");
 
   return (
-    <main className="relative min-h-screen w-full ">
+    <main className="relative min-h-screen w-full">
       <header>
         <Header />
       </header>
@@ -26,7 +26,7 @@ export default function Minimal() {
           <div className="flex flex-col justify-center gap-4">
             <div>
               <h2 className="text-4xl text-gray-700 dark:text-gray-300 font-bold">
-                Hi, I'm
+                Hi, I&apos;m
               </h2>
               <h1 className="text-6xl text-gray-900 dark:text-gray-100 font-bold">
                 Xinghao Li
@@ -201,7 +201,7 @@ export default function Minimal() {
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Using mediapipe and opencv, our project used live camera feed to
                 track real-life hand movements, and translates those to a
-                custom-built robotic arm that follows the user's hands.
+                custom-built robotic arm that follows the user&apos;s hands.
               </p>
               <div className="flex gap-4">
                 <a
