@@ -10,7 +10,7 @@ export default function Header() {
       <div className="flex-grow flex justify-center">
         <nav className="flex justify-center gap-4">
           <Link
-            href="/"
+            href="/minimal"
             className="text-gray-900 dark:text-white hover:text-gray-600"
           >
             Home
