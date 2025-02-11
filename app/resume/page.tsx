@@ -7,7 +7,7 @@ export default function Resume() {
       <header>
         <Header />
       </header>
-      <div className="w-100ch h-[90vh] flex flex-col items-center">
+      <div className="w-100ch flex flex-col items-center">
         <div className="mb-4 flex">
           <a
             href="/Xinghao_Li_Resume_Main.pdf"
@@ -27,7 +27,7 @@ export default function Resume() {
         </div>
         <iframe
           src="/Xinghao_Li_Resume_Main.pdf"
-          className="w-[850px] h-full"
+          className="w-[850px] h-[100vh]"
           title="Resume"
         ></iframe>
       </div>
