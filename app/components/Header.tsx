@@ -1,56 +1,71 @@
 "use client";
-import { useTheme } from "../providers/ThemeProvider";
+// import { useTheme } from "../providers/ThemeProvider";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+// import Link from "next/link";
 
 export default function Header() {
-  const { theme, toggleTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    setMounted(true);
+    const stored =
+      typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+    if (stored === "light" || stored === "dark") {
+      applyTheme(stored);
+      return;
+    }
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(prefersDark ? "dark" : "light");
+    const mql = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = (e: MediaQueryListEvent) => {
+      const stored = localStorage.getItem("theme");
+      if (!stored) applyTheme(e.matches ? "dark" : "light");
+    };
+    try {
+      mql.addEventListener("change", onChange);
+    } catch {
+      mql.addListener(onChange);
+    }
+    return () => {
+      try {
+        mql.removeEventListener("change", onChange);
+      } catch {
+        mql.removeListener(onChange);
+      }
+    };
+  }, []);
+
+  const applyTheme = (next: "light" | "dark") => {
+    const root = document.documentElement;
+    root.classList.toggle("dark", next === "dark");
+    localStorage.setItem("theme", next);
+    setTheme(next);
+  };
+
+  const toggleTheme = () => applyTheme(theme === "dark" ? "light" : "dark");
 
   return (
-    <header className="mx-auto fixed top-0 left-1/2 -translate-x-1/2 w-full h-20 bg-normal-900 backdrop-blur-sm z-10 flex items-center px-4">
-      <div className="flex-grow flex justify-center">
-        <nav className="flex justify-center gap-4">
-          <Link
-            href="/minimal"
-            className="text-gray-900 dark:text-white hover:text-gray-600"
-          >
-            Home
-          </Link>
-          {/* <Link
-            href="/about"
-            className="text-gray-900 dark:text-white hover:text-gray-600"
-          >
-            About
-          </Link>
-          <Link
-            href="/projects"
-            className="text-gray-900 dark:text-white hover:text-gray-600"
-          >
-            Projects
-          </Link> */}
-          <Link
-            href="/resume"
-            className="text-gray-900 dark:text-white hover:text-gray-600"
-          >
-            Resume
-          </Link>
-        </nav>
-      </div>
-
-      <div className="absolute">
-        <button onClick={toggleTheme} className="flex items-center">
-          {theme === "dark" ? (
-            <i
-              className="fa-regular fa-moon text-5xl text-gray-300"
-              style={{ width: "24px" }}
-            ></i>
-          ) : (
-            <i
-              className="fa-regular fa-sun text-5xl text-gray-800"
-              style={{ width: "24px" }}
-            ></i>
-          )}
-        </button>
-      </div>
+    <header className="absolute top-0 left-0 right-0 flex items-center justify-between px-6 py-4">
+      <Link
+        href="/"
+        className="text-sm font-medium underline underline-offset-4 hover:no-underline"
+        aria-label="Go back home"
+      >
+        Home
+      </Link>
+      <button
+        type="button"
+        onClick={toggleTheme}
+        aria-pressed={theme === "dark"}
+        className="rounded-2xl border px-3 py-1.5 text-xs font-medium transition-colors duration-[2000ms] ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
+        title="Toggle light/dark"
+      >
+        {mounted ? (theme === "dark" ? "☀️ Light" : "🌙 Dark") : "Theme"}
+      </button>
     </header>
   );
 }

@@ -1,241 +1,148 @@
 "use client";
+
+// import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useState } from "react";
-import headshot from "../../public/Xinghao_Headshot_2.jpg";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+
+import Headshot from "../../public/Xinghao_Headshot_2.jpg";
 import Header from "../components/Header";
 
-export default function Minimal() {
-  const [activeSection, setActiveSection] = useState("experience");
+/**
+ * Minimal, no-scroll landing page for a personal portfolio.
+ * Drop this file in `app/page.tsx` (Next.js App Router).
+ * Put your photo at `/public/me.jpg` or update the `src` below.
+ *
+ * Dark mode toggle: this component manages a `dark` class on <html> and
+ * persists the preference in localStorage. Be sure Tailwind is set to
+ * `darkMode: 'class'` in `tailwind.config.js`.
+ *
+ * Uses CSS variables from globals.css for colors.
+ */
 
+const ENABLE_SECRET = false; // Toggle to true when your advanced section is ready
+
+export default function Landing() {
   return (
-    <main className="relative min-h-screen w-full">
-      <header>
-        <Header />
-      </header>
-      <div className="max-w-[800px] mx-auto flex flex-col w-full p-4 mt-16">
-        <div className="rounded-lg  p-6 flex justify-center gap-6">
-          <div className="relative w-80 h-80">
-            <Image
-              src={headshot}
-              alt="Profile picture"
-              fill
-              className="rounded-full object-cover"
-            />
+    <main className="h-dvh overflow-hidden bg-[var(--light-background)] text-[var(--light-foreground)] dark:bg-[var(--dark-background)] dark:text-[var(--dark-foreground)] transition-colors duration-[2000ms] ease-in-out">
+      <Header />
+
+      <div className="mx-auto flex h-full max-w-5xl items-center justify-center px-6">
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[220px_1fr]"
+          aria-labelledby="intro-heading"
+        >
+          <div className="mx-auto md:mx-0">
+            <div className="relative h-40 w-40 overflow-hidden rounded-2xl ring-1 ring-black/5 shadow-2xl dark:ring-white/10 transition-colors duration-[2000ms] ease-in-out">
+              <Image
+                src={Headshot}
+                alt="Portrait of Xinghao Li"
+                fill
+                priority
+                sizes="160px"
+                className="object-cover"
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col justify-center gap-4">
-            <div>
-              <h2 className="text-4xl text-gray-700 dark:text-gray-300 font-bold">
-                Hi, I&apos;m
-              </h2>
-              <h1 className="text-6xl text-gray-900 dark:text-gray-100 font-bold">
+          <div className="space-y-6 text-center md:text-left">
+            <header className="space-y-2">
+              <h1
+                id="intro-heading"
+                className="text-3xl font-semibold tracking-tight md:text-4xl transition-colors duration-[2000ms] ease-in-out"
+              >
                 Xinghao Li
               </h1>
-              <h2 className="text-lg text-gray-700 dark:text-gray-300">
-                Software Engineer
-              </h2>
-            </div>
+              <p className="text-sm/relaxed opacity-80 md:text-base transition-colors duration-[2000ms] ease-in-out">
+                Software Engineering @ University of Waterloo
+              </p>
+            </header>
 
-            <div className="flex gap-4">
-              <a
-                href="https://github.com/Gogo-XD"
-                target="_blank"
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
-                aria-label="GitHub"
-              >
-                <i className="fab fa-github text-2xl"></i>
-              </a>
-              <a
-                href="https://linkedin.com/in/xinghaoli2006"
-                target="_blank"
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
-                aria-label="LinkedIn"
-              >
-                <i className="fab fa-linkedin text-2xl"></i>
-              </a>
+            <p className="mx-auto max-w-prose text-pretty opacity-80 transition-colors duration-[2000ms] ease-in-out">
+              Hi, I&apos;m Xinghao (he/him), a software engineering student at
+              the University of Waterloo. I love building things, learning new
+              technologies, and exploring the intersection of design and code. I
+              am super passionate about the intersection of AI and Software,
+              with Biotechnology and Healthcare.
+            </p>
+
+            <p className="mx-auto max-w-prose text-pretty opacity-80 transition-colors duration-[2000ms] ease-in-out">
+              Prev: Intern @{" AuraData Inc"} | Full-Stack Software Developer
+            </p>
+
+            <div className="flex items-center justify-center gap-3 md:justify-start">
+              {/* Primary contact/action */}
               <a
                 href="mailto:xinghaoli.2006@gmail.com"
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100"
-                aria-label="Email"
+                aria-label="Email me"
+                className="rounded-2xl bg-[var(--dark-foreground)] px-5 py-2.5 text-sm font-medium text-[var(--dark-background)] transition-colors duration-[2000ms] ease-in-out hover:opacity-90 dark:bg-[var(--light-foreground)] dark:text-[var(--light-background)]"
               >
-                <i className="fas fa-envelope text-2xl"></i>
+                Say hi
               </a>
-            </div>
-            <div className="">
-              <div className="flex justify-between items-center">
-                <div className="border border-gray-700 dark:border-gray-300 pl-4 pr-4 pt-1 pb-1 rounded-md text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
-                  <a href="/resume" target="_blank" className="">
-                    Resume
-                  </a>
-                </div>
 
-                {/* <div className="border border-gray-700 dark:border-gray-300 pl-4 pr-4 pt-1 pb-1 rounded-md text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
-                  <a href="/about" className="flex items-center">
-                    About Me <span className="text-sm pl-2">→</span>
-                  </a>
-                </div> */}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full">
-          <div className="flex gap-2 mt-8 justify-center bg-slate-200 dark:bg-slate-800 p-[0.5rem] rounded-lg">
-            <button
-              onClick={() => setActiveSection("experience")}
-              className={`px-1 py-1 rounded-lg w-full ${
-                activeSection === "experience"
-                  ? "bg-blue-200 text-gray-800 dark:bg-slate-700 dark:text-gray-300"
-                  : "bg-gray-200 text-gray-800 dark:bg-slate-800 dark:text-gray-300"
-              }`}
-            >
-              Experience
-            </button>
-            <button
-              onClick={() => setActiveSection("education")}
-              className={`px-1 py-1 rounded-lg w-full ${
-                activeSection === "education"
-                  ? "bg-blue-200 text-gray-800 dark:bg-slate-700 dark:text-gray-300"
-                  : "bg-gray-200 text-gray-800 dark:bg-slate-800 dark:text-gray-300"
-              }`}
-            >
-              Education
-            </button>
-          </div>
-
-          {activeSection === "experience" && (
-            <div className="mt-3 bg-slate-200 dark:bg-slate-800 rounded-lg p-6 shadow-lg dark:shadow-lg">
-              <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-slate-200">
-                Experience
-              </h2>
-              <div className="m-4 pt-4">
-                <p className="text-gray-600 dark:text-gray-400">
-                  Sep 2024 - Present
-                </p>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-200">
-                  UW Orbital
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Software Engineering
-                </p>
-                <ul className="list-disc list-inside mt-2 text-gray-700 dark:text-gray-300">
-                  <li>
-                    Worked on implementing critical temperature readings that
-                    can detect overheating in the satellite and initiate
-                    emergency protocols to reduce heat.
-                  </li>
-                  <li>
-                    Working on developing communication software in the
-                    ground-station backend to provide methods of communication
-                    between the ground and the satellite in space.
-                  </li>
-                </ul>
-              </div>
-              <div className="m-4 pt-4">
-                <p className="text-gray-600 dark:text-gray-400">
-                  Jul 2023 - Aug 2023
-                </p>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-200">
-                  Cadets Canada - Department of National Defense
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Staff Cadet - Full Time
-                </p>
-                <ul className="list-disc list-inside mt-2 text-gray-700 dark:text-gray-300">
-                  <li>
-                    Worked as a shipwright staff cadet at Shearwater, Halifax to
-                    supervise and ensure the safety of over 60 cadets at sailing
-                    camp.
-                  </li>
-                  <li>
-                    Learned and was certified for radio communication, first
-                    aid, emergency first aid, and pleasure craft operation.
-                  </li>
-                </ul>
-              </div>
-              <div className="m-4 pt-4">
-                <p className="text-gray-600 dark:text-gray-400">
-                  Sep 2021 - Apr 2024
-                </p>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-200">
-                  Metra Basketball Association
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Scorekeeper - Part Time
-                </p>
-                <ul className="list-disc list-inside mt-2 text-gray-700 dark:text-gray-300">
-                  <li>
-                    Active and efficient communication between players, coaches,
-                    referees, and spectators to enforce a safe and fun playing
-                    space for u10-u16 city basketball games
-                  </li>
-                </ul>
-              </div>
-            </div>
-          )}
-          {activeSection === "education" && (
-            <div className="mt-3 bg-slate-200 dark:bg-slate-800 rounded-lg p-6 text-gray-900 dark:text-gray-200 shadow-lg">
-              <h2 className="text-3xl font-bold mb-4">Education</h2>
-              <div className="mb-4">
-                <p className="text-gray-600 dark:text-gray-400">
-                  Sep 2024 - Apr 2029
-                </p>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-200">
-                  University of Waterloo
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  BAsc Software Engineering
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col mt-3 bg-slate-200 dark:bg-slate-800 rounded-lg p-6 shadow-lg dark:shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-200">
-            Highlighted Projects
-          </h1>
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-lg bg-slate-200 dark:bg-slate-800 p-6 border border-gray-300 dark:border-gray-900 shadow-lg dark:shadow-lg">
-              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-200">
-                Hand-tracking Robotic Arm
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Using mediapipe and opencv, our project used live camera feed to
-                track real-life hand movements, and translates those to a
-                custom-built robotic arm that follows the user&apos;s hands.
-              </p>
-              <div className="flex gap-4">
-                <a
-                  href="https://github.com/Gogo-XD/Hand-Tracked-Robotic-Arm"
-                  target="_blank"
-                  className="text-cyan-700 hover:text-cyan-500  dark:text-cyan-300 dark:hover:text-cyan-500"
+              {/* Future: the cool/advanced side */}
+              {ENABLE_SECRET ? (
+                <Link
+                  href="/lab"
+                  aria-label="Enter the experimental side of my portfolio"
+                  className="flex items-center rounded-2xl bg-[var(--light-foreground)] px-5 py-2.5 text-sm font-medium text-[var(--light-background)] transition-colors duration-[2000ms] ease-in-out hover:opacity-90 dark:bg-[var(--dark-foreground)] dark:text-[var(--dark-background)]"
                 >
-                  GitHub
-                </a>
-              </div>
+                  Explore <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  title="Coming soon"
+                  onClick={() => alert("Coming soon ✨")}
+                  className="flex items-center rounded-2xl border px-5 py-2.5 text-sm font-medium opacity-80 transition-colors duration-[2000ms] ease-in-out hover:opacity-100"
+                >
+                  Coming soon <ArrowRight className="ml-2 h-4 w-4" />
+                </button>
+              )}
             </div>
 
-            <div className="rounded-lg bg-slate-200 dark:bg-slate-800 p-6 border border-gray-300 dark:border-gray-900 shadow-lg dark:shadow-lg">
-              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-200">
-                Chess Engine
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                I developed a custom chess engine using the minimax algorithm
-                with many optimizations, including alpha-beta pruning and
-                move-ordering, with many more to come.
-              </p>
-              <div className="flex gap-4">
-                <a
-                  href="https://github.com/Gogo-XD/Chess-Engine"
-                  target="_blank"
-                  className="text-cyan-700 hover:text-cyan-500  dark:text-cyan-300 dark:hover:text-cyan-500"
-                >
-                  GitHub
-                </a>
-              </div>
-            </div>
+            {/* Optional social links */}
+            <nav
+              className="pt-2 text-sm opacity-70 transition-colors duration-[2000ms] ease-in-out"
+              aria-label="Social links"
+            >
+              <ul className="flex flex-wrap items-center justify-center gap-4 md:justify-start">
+                <li>
+                  <a
+                    href="https://github.com/Gogo-XD"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="underline-offset-4 hover:underline"
+                  >
+                    GitHub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/xinghaoli2006/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="underline-offset-4 hover:underline"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
-        </div>
+        </motion.section>
       </div>
+
+      {/* Subtle corner credit / footer (non-scrolling) */}
+      <footer className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center transition-colors duration-[2000ms] ease-in-out">
+        <p className="px-4 text-center text-xs opacity-70">
+          © {new Date().getFullYear()} Xinghao Li
+        </p>
+      </footer>
     </main>
   );
 }
